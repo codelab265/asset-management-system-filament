@@ -16,7 +16,7 @@ class MaintenanceHistoryResource extends Resource
 
     protected static ?string $navigationGroup = "Assets";
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
     public static function form(Form $form): Form
     {

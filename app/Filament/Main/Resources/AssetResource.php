@@ -14,7 +14,7 @@ class AssetResource extends Resource
 {
     protected static ?string $model = Asset::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-document-check';
     protected static ?string $navigationGroup = "Assets";
     protected static ?string $navigationLabel = "Active Assets";
 
@@ -52,6 +52,11 @@ class AssetResource extends Resource
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
     }
 
     public static function getPages(): array

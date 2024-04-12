@@ -14,7 +14,7 @@ class AcquisitionResource extends Resource
 {
     protected static ?string $model = Acquisition::class;
     protected static ?string $navigationGroup = "Assets";
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-document-plus';
 
     public static function form(Form $form): Form
     {
@@ -58,5 +58,10 @@ class AcquisitionResource extends Resource
             'create' => Pages\CreateAcquisition::route('/create'),
             'edit' => Pages\EditAcquisition::route('/{record}/edit'),
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
     }
 }

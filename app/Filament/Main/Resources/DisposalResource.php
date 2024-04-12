@@ -14,7 +14,7 @@ class DisposalResource extends Resource
 {
     protected static ?string $model = Disposal::class;
     protected static ?string $navigationGroup = "Assets";
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-archive-box-x-mark';
 
     public static function form(Form $form): Form
     {
@@ -40,6 +40,11 @@ class DisposalResource extends Resource
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
     }
 
     public static function getPages(): array

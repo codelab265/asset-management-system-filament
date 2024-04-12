@@ -14,7 +14,7 @@ class PersonnelResource extends Resource
 {
     protected static ?string $model = Personnel::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-users';
 
     protected static ?int $navigationSort = 4;
 
