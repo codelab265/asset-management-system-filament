@@ -16,6 +16,8 @@ class DepartmentResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?int $navigationSort = 3;
+
     public static function form(Form $form): Form
     {
         return $form
@@ -34,9 +36,7 @@ class DepartmentResource extends Resource
                 Tables\Columns\TextColumn::make('floor')->searchable(),
                 Tables\Columns\TextColumn::make('room')->searchable(),
             ])
-            ->filters([
-
-            ])
+            ->filters([])
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])

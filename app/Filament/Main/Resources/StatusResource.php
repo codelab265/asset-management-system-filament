@@ -15,6 +15,7 @@ class StatusResource extends Resource
     protected static ?string $model = Status::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
     {
@@ -30,9 +31,7 @@ class StatusResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')->searchable(),
             ])
-            ->filters([
-
-            ])
+            ->filters([])
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])

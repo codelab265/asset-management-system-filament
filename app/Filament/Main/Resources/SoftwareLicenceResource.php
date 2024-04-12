@@ -15,7 +15,7 @@ class SoftwareLicenceResource extends Resource
     protected static ?string $model = SoftwareLicence::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
+    protected static ?int $navigationSort = 4;
     public static function form(Form $form): Form
     {
         return $form
@@ -38,9 +38,7 @@ class SoftwareLicenceResource extends Resource
                 Tables\Columns\TextColumn::make('os_build')->searchable(),
                 Tables\Columns\TextColumn::make('experience')->searchable(),
             ])
-            ->filters([
-
-            ])
+            ->filters([])
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])

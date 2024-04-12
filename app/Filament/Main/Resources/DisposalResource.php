@@ -13,7 +13,7 @@ use Filament\Tables\Table;
 class DisposalResource extends Resource
 {
     protected static ?string $model = Disposal::class;
-
+    protected static ?string $navigationGroup = "Assets";
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
@@ -33,9 +33,7 @@ class DisposalResource extends Resource
                 Tables\Columns\TextColumn::make('reason')->searchable(),
 
             ])
-            ->filters([
-
-            ])
+            ->filters([])
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])

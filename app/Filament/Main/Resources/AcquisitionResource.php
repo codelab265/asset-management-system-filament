@@ -13,7 +13,7 @@ use Filament\Tables\Table;
 class AcquisitionResource extends Resource
 {
     protected static ?string $model = Acquisition::class;
-
+    protected static ?string $navigationGroup = "Assets";
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
@@ -42,9 +42,7 @@ class AcquisitionResource extends Resource
                 Tables\Columns\TextColumn::make('serial_number')->searchable(),
 
             ])
-            ->filters([
-
-            ])
+            ->filters([])
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])

@@ -14,6 +14,8 @@ class MaintenanceHistoryResource extends Resource
 {
     protected static ?string $model = MaintenanceHistory::class;
 
+    protected static ?string $navigationGroup = "Assets";
+
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
@@ -33,9 +35,7 @@ class MaintenanceHistoryResource extends Resource
                 Tables\Columns\TextColumn::make('maintenance_performed')->searchable(),
                 Tables\Columns\TextColumn::make('maintenance_date')->searchable(),
             ])
-            ->filters([
-
-            ])
+            ->filters([])
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])

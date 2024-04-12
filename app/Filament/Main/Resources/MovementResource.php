@@ -14,6 +14,8 @@ class MovementResource extends Resource
 {
     protected static ?string $model = Movement::class;
 
+    protected static ?string $navigationGroup = "Assets";
+
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
@@ -32,12 +34,8 @@ class MovementResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([
-
-            ])
-            ->filters([
-
-            ])
+            ->columns([])
+            ->filters([])
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])
