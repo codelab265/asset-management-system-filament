@@ -25,10 +25,10 @@ class MainPanelProvider extends PanelProvider
         return $panel
             ->default()
             ->id('main')
-            ->path('main')
+            ->path('/')
             ->login()
             ->colors([
-                'primary' => Color::Sky,
+                'primary' => Color::Indigo,
             ])
             ->discoverResources(in: app_path('Filament/Main/Resources'), for: 'App\\Filament\\Main\\Resources')
             ->discoverPages(in: app_path('Filament/Main/Pages'), for: 'App\\Filament\\Main\\Pages')
@@ -37,9 +37,8 @@ class MainPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Main/Widgets'), for: 'App\\Filament\\Main\\Widgets')
             ->widgets([
-                Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
-            ])
+                /* Widgets\AccountWidget::class, */
+                /* Widgets\FilamentInfoWidget::class, */])
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,

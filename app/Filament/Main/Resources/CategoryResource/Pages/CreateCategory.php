@@ -3,6 +3,7 @@
 namespace App\Filament\Main\Resources\CategoryResource\Pages;
 
 use App\Filament\Main\Resources\CategoryResource;
+use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateCategory extends CreateRecord
@@ -11,8 +12,6 @@ class CreateCategory extends CreateRecord
 
     protected function getHeaderActions(): array
     {
-        return [
-
-        ];
+        return [];
     }
 }

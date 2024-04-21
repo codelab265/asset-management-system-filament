@@ -14,7 +14,8 @@ class MovementResource extends Resource
 {
     protected static ?string $model = Movement::class;
 
-    protected static ?string $navigationGroup = "Assets";
+    protected static ?int $navigationSort = 8;
+
 
     protected static ?string $navigationIcon = 'heroicon-o-arrows-right-left';
 

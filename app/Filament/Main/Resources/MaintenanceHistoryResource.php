@@ -14,7 +14,8 @@ class MaintenanceHistoryResource extends Resource
 {
     protected static ?string $model = MaintenanceHistory::class;
 
-    protected static ?string $navigationGroup = "Assets";
+    protected static ?int $navigationSort = 6;
+
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 

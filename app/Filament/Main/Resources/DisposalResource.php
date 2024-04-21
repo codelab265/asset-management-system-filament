@@ -7,13 +7,16 @@ use App\Models\Disposal;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\Colors\Color;
 use Filament\Tables;
 use Filament\Tables\Table;
 
 class DisposalResource extends Resource
 {
     protected static ?string $model = Disposal::class;
-    protected static ?string $navigationGroup = "Assets";
+
+    protected static ?int $navigationSort = 7;
+
     protected static ?string $navigationIcon = 'heroicon-o-archive-box-x-mark';
 
     public static function form(Form $form): Form
@@ -45,6 +48,10 @@ class DisposalResource extends Resource
     public static function getNavigationBadge(): ?string
     {
         return static::getModel()::count();
+    }
+    public static function getNavigationBadgeColor(): ?array
+    {
+        return Color::Pink;
     }
 
     public static function getPages(): array

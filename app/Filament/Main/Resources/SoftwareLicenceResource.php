@@ -15,12 +15,12 @@ class SoftwareLicenceResource extends Resource
     protected static ?string $model = SoftwareLicence::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-check';
-    protected static ?int $navigationSort = 4;
+    protected static ?int $navigationSort = 9;
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('asset_id')->nullable()->relationship('asset', 'name'),
+                Forms\Components\Select::make('asset_id')->nullable()->relationship('asset', 'tag_number'),
                 Forms\Components\TextInput::make('edition'),
                 Forms\Components\TextInput::make('version'),
                 Forms\Components\DatePicker::make('installed_on'),
