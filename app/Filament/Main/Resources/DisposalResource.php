@@ -10,6 +10,7 @@ use Filament\Resources\Resource;
 use Filament\Support\Colors\Color;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 
 class DisposalResource extends Resource
 {
@@ -23,7 +24,15 @@ class DisposalResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('asset_id')->nullable()->required()->label('Asset')->relationship('asset', 'name'),
+                Forms\Components\Select::make('asset_id')->nullable()
+                    ->relationship(
+                        name: 'asset',
+                        titleAttribute: 'tag_number',
+                        modifyQueryUsing: fn ($query) => $query->where('disposed', false)
+                    )
+                    ->label('Asset')
+                    ->required()
+                    ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->tag_number} - {$record->model_number}"),
                 Forms\Components\TextInput::make('reason')->required()->label('Reason'),
                 Forms\Components\DatePicker::make('disposed_date')->required()->label('Disposed_date'),
             ]);
@@ -33,12 +42,20 @@ class DisposalResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('asset.tag_number')
+                    ->formatStateUsing(fn (Model $record) => "{$record->asset->tag_number} - {$record->asset->model_number}")
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('reason')->searchable(),
+                Tables\Columns\TextColumn::make('disposed_date')
+                    ->date()
+                    ->formatStateUsing(fn (Model $record) => date('Y-m-d', strtotime($record->disposed_date)))
+                    ->searchable(),
 
             ])
             ->filters([])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make()
+
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),

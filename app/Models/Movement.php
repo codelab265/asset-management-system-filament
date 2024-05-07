@@ -14,9 +14,7 @@ class Movement extends Model
         'asset_id', 'previous_department_id', 'previous_personnel_id', 'current_department_id', 'current_personnel_id', 'moved_date',
     ];
 
-    protected $casts = [
-
-    ];
+    protected $casts = [];
 
     public function asset(): BelongsTo
     {
@@ -25,21 +23,21 @@ class Movement extends Model
 
     public function previousDepartment(): BelongsTo
     {
-        return $this->belongsTo(Department::class, 'previousdepartment_id');
+        return $this->belongsTo(Department::class, 'previous_department_id');
     }
 
     public function previousPersonnel(): BelongsTo
     {
-        return $this->belongsTo(Personnel::class, 'previouspersonnel_id');
+        return $this->belongsTo(Personnel::class, 'previous_personnel_id');
     }
 
     public function currentDepartment(): BelongsTo
     {
-        return $this->belongsTo(Department::class, 'currentdepartment_id');
+        return $this->belongsTo(Department::class, 'current_department_id');
     }
 
     public function currentPersonnel(): BelongsTo
     {
-        return $this->belongsTo(Personnel::class, 'currentpersonnel_id');
+        return $this->belongsTo(Personnel::class, 'current_personnel_id');
     }
 }

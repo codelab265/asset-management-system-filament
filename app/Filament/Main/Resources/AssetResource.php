@@ -41,6 +41,9 @@ class AssetResource extends Resource
                 Forms\Components\Select::make('status_id')
                     ->relationship('status', 'name')
                     ->required(),
+                Forms\Components\TextInput::make('name')
+                    ->required()
+                    ->maxLength(255),
                 Forms\Components\TextInput::make('tag_number')
                     ->required()
                     ->maxLength(255),
@@ -65,18 +68,17 @@ class AssetResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\TextColumn::make('category.name')
-                    ->numeric()
+
                     ->sortable(),
                 Tables\Columns\TextColumn::make('department.building')
-                    ->numeric()
+
                     ->sortable(),
                 Tables\Columns\TextColumn::make('personnel.name')
-                    ->numeric()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('status.name')
-                    ->numeric()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('tag_number')
@@ -105,6 +107,7 @@ class AssetResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->modifyQueryUsing(fn (Builder $query): Builder => $query->where('disposed', false))
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
             ])
@@ -149,7 +152,7 @@ class AssetResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return static::getModel()::count();
+        return static::getModel()::query()->where('disposed', false)->count();
     }
 
     public static function getNavigationBadgeColor(): ?array

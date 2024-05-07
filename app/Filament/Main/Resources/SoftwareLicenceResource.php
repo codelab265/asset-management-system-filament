@@ -9,6 +9,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 
 class SoftwareLicenceResource extends Resource
 {
@@ -33,6 +34,9 @@ class SoftwareLicenceResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('asset.tag_number')
+                    ->formatStateUsing(fn (Model $record) => "{$record->asset->tag_number} - {$record->asset->model_number}")
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('edition')->searchable(),
                 Tables\Columns\TextColumn::make('version')->searchable(),
                 Tables\Columns\TextColumn::make('os_build')->searchable(),
@@ -41,6 +45,7 @@ class SoftwareLicenceResource extends Resource
             ->filters([])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),

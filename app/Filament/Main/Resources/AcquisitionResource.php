@@ -10,6 +10,7 @@ use Filament\Resources\Resource;
 use Filament\Support\Colors\Color;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 
 class AcquisitionResource extends Resource
 {
@@ -22,16 +23,31 @@ class AcquisitionResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('category_id')->nullable()->relationship('category', 'name'),
-                Forms\Components\Select::make('department_id')->nullable()->relationship('department', 'name'),
-                Forms\Components\Select::make('personnel_id')->nullable()->relationship('personnel', 'name'),
-                Forms\Components\Select::make('status_id')->nullable()->relationship('status', 'name'),
-                Forms\Components\TextInput::make('tag_number'),
-                Forms\Components\TextInput::make('model_number'),
-                Forms\Components\TextInput::make('serial_number'),
-                Forms\Components\DatePicker::make('purchase_date'),
-                Forms\Components\TextInput::make('purchase_price')->numeric(),
-                Forms\Components\TextInput::make('warrant')->numeric(),
+                Forms\Components\Select::make('category_id')
+                    ->relationship('category', 'name')
+                    ->required(),
+                Forms\Components\Select::make('department_id')
+                    ->relationship('department', 'building')
+                    ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->building}, {$record->floor}, {$record->room}")
+                    ->required(),
+                Forms\Components\Select::make('personnel_id')
+                    ->required()
+                    ->relationship('personnel', 'name'),
+                Forms\Components\Select::make('status_id')
+                    ->required()
+                    ->relationship('status', 'name'),
+                Forms\Components\TextInput::make('tag_number')
+                    ->required(),
+                Forms\Components\TextInput::make('model_number')
+                    ->required(),
+                Forms\Components\TextInput::make('serial_number')
+                    ->required(),
+                Forms\Components\DatePicker::make('purchase_date')
+                    ->required(),
+                Forms\Components\TextInput::make('purchase_price')
+                    ->required()->numeric(),
+                Forms\Components\TextInput::make('warrant')
+                    ->required()->numeric(),
             ]);
     }
 

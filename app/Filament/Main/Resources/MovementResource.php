@@ -5,10 +5,12 @@ namespace App\Filament\Main\Resources;
 use App\Filament\Main\Resources\MovementResource\Pages;
 use App\Models\Movement;
 use Filament\Forms;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 
 class MovementResource extends Resource
 {
@@ -23,22 +25,63 @@ class MovementResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('asset_id')->nullable()->required()->label('Asset')->relationship('asset', 'name'),
-                Forms\Components\Select::make('previous_department_id')->nullable()->required()->label('previous_department')->options([]),
-                Forms\Components\Select::make('previous_personnel_id')->nullable()->options([]),
-                Forms\Components\Select::make('current_department_id')->nullable()->required()->label('Current_department')->options([]),
-                Forms\Components\Select::make('current_personnel_id')->nullable()->required()->label('Current_personnel')->options([]),
-                Forms\Components\DatePicker::make('moved_date'),
+                Section::make()
+                    ->schema([
+                        Forms\Components\Select::make('asset_id')
+                            ->required()
+                            ->label('Asset')
+                            ->relationship('asset', 'tag_number')
+                            ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->tag_number} - {$record->model_number}")
+                            ->columnSpanFull(),
+
+                        Forms\Components\Select::make('previous_department_id')
+                            ->relationship('previousDepartment', 'building')
+                            ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->building}, {$record->floor}, {$record->room}")
+                            ->required()
+                            ->label('Previous Department'),
+
+                        Forms\Components\Select::make('previous_personnel_id')
+                            ->relationship('previousPersonnel', 'name')
+                            ->required()
+                            ->label('Previous Personnel'),
+
+                        Forms\Components\Select::make('current_department_id')
+                            ->relationship('CurrentDepartment', 'building')
+                            ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->building}, {$record->floor}, {$record->room}")
+                            ->required()
+                            ->label('Current Department'),
+
+                        Forms\Components\Select::make('current_personnel_id')
+                            ->relationship('CurrentPersonnel', 'name')
+                            ->required()
+                            ->label('Current Personnel'),
+
+                        Forms\Components\DatePicker::make('moved_date')
+                            ->label('Moved Date')
+                            ->required(),
+                    ])
+                    ->columns(2)
             ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([])
+            ->columns([
+                Tables\Columns\TextColumn::make('asset.tag_number')
+                    ->formatStateUsing(fn (Model $record) => "{$record->asset->tag_number} - {$record->asset->model_number}"),
+                Tables\Columns\TextColumn::make('CurrentDepartment.building')
+                    ->label('Department')
+                    ->description(fn ($record) => 'Old Department: ' . $record->previousDepartment->building . ', ' . $record->previousDepartment->floor . '-' . $record->previousDepartment->room),
+                Tables\Columns\TextColumn::make('currentPersonnel.name')
+                    ->label('Personnel')
+                    ->description(fn ($record) => 'Old Personnel: ' . $record->previousPersonnel->name),
+                Tables\Columns\TextColumn::make('moved_date'),
+            ])
             ->filters([])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),

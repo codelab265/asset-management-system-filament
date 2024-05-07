@@ -12,9 +12,7 @@ class Asset extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable = [
-        'category_id', 'department_id', 'personnel_id', 'status_id', 'tag_number', 'model_number', 'serial_number', 'purchase_price', 'purchase_date', 'warrant',
-    ];
+    protected $guarded = [];
 
     protected $casts = [];
 

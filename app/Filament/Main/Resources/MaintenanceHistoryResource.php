@@ -9,6 +9,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 
 class MaintenanceHistoryResource extends Resource
 {
@@ -23,9 +24,17 @@ class MaintenanceHistoryResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('asset_id')->nullable()->relationship('asset', 'name'),
-                Forms\Components\TextInput::make('maintenance_performed'),
-                Forms\Components\TextInput::make('maintenance_date'),
+                Forms\Components\Select::make('asset_id')->nullable()
+                    ->relationship('asset', 'tag_number')
+                    ->required()
+                    ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->tag_number} - {$record->model_number}"),
+                Forms\Components\DatePicker::make('maintenance_date')
+                    ->label('Maintenance Date')
+                    ->required(),
+                Forms\Components\Textarea::make('maintenance_performed')
+                    ->required()
+                    ->label('Maintenance Performed')
+                    ->columnSpanFull(),
             ]);
     }
 
@@ -33,12 +42,15 @@ class MaintenanceHistoryResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('asset.tag_number')->searchable()
+                    ->formatStateUsing(fn (Model $record) => "{$record->asset->tag_number} - {$record->asset->model_number}"),
                 Tables\Columns\TextColumn::make('maintenance_performed')->searchable(),
                 Tables\Columns\TextColumn::make('maintenance_date')->searchable(),
             ])
             ->filters([])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
