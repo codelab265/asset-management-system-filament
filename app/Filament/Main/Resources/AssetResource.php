@@ -61,6 +61,9 @@ class AssetResource extends Resource
                 Forms\Components\TextInput::make('warrant')
                     ->required()
                     ->numeric(),
+                Forms\Components\TextInput::make('manufacture')
+                    ->required()
+                    ->maxLength(255),
             ]);
     }
 
