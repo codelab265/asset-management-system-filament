@@ -2,6 +2,8 @@
 
 namespace App\Filament\Main\Resources;
 
+use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
+use AlperenErsoy\FilamentExport\Actions\FilamentExportHeaderAction;
 use App\Filament\Main\Resources\AssetResource\Pages;
 use App\Filament\Main\Resources\AssetResource\RelationManagers;
 use App\Models\Asset;
@@ -114,6 +116,9 @@ class AssetResource extends Resource
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
             ])
+            ->HeaderActions([
+                FilamentExportHeaderAction::make('export')
+            ])
             ->actions([
 
                 ActionGroup::make([
@@ -133,7 +138,9 @@ class AssetResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                     Tables\Actions\ForceDeleteBulkAction::make(),
                     Tables\Actions\RestoreBulkAction::make(),
+
                 ]),
+
             ]);
     }
 
